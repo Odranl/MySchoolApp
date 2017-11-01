@@ -12,21 +12,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.kmsoftware.myschoolapp.model.Mark;
 import com.kmsoftware.myschoolapp.model.Subject;
 import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddMarkActivity extends AppCompatActivity {
 
     private Subject subject = null;
+    private int mark_id = -1;
+
+    private ArrayList<Subject> subjects = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mark);
+
+        mark_id = getIntent().getIntExtra("mark_id", -1);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,9 +49,11 @@ public class AddMarkActivity extends AppCompatActivity {
                 }
         );
 
+        subjects = new DatabaseUtilities(this).getSubjectsList();
+
         ArrayAdapter<Subject> subjectArrayAdapter = new ArrayAdapter<Subject>(
                 this, android.R.layout.simple_spinner_item,
-                new DatabaseUtilities(this).getSubjectsList()
+                subjects
         );
 
         Spinner spinner = findViewById(R.id.spinner_subject_add_mark);
@@ -110,23 +121,57 @@ public class AddMarkActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (((Button) findViewById(R.id.edit_text_date_add_mark)).getText().equals("")) {
-                            new AlertDialog.Builder(
-                                    AddMarkActivity.this).setMessage("Select a date!").setNeutralButton(
-                                    "Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                        if (mark_id == -1) {
+                            if (((Button) findViewById(R.id.edit_text_date_add_mark)).getText().equals("")) {
+                                new AlertDialog.Builder(
+                                        AddMarkActivity.this).setMessage("Select a date!").setNeutralButton(
+                                        "Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
+                                            }
                                         }
-                                    }
-                            ).show();
+                                ).show();
+                            } else {
+                                new DatabaseUtilities(AddMarkActivity.this).addMark(subject,
+                                        Float.parseFloat(((EditText) findViewById(R.id.edit_text_mark_add_mark)).getText().toString()),
+                                        ((Button) findViewById(R.id.edit_text_date_add_mark)).getText().toString(),
+                                        ((EditText) findViewById(R.id.add_mark_edit_text_description)).getText().toString()
+                                );
+
+                                finish();
+                            }
+
                         } else {
-                            Snackbar.make(v, "Lol", Snackbar.LENGTH_LONG);
+                            new DatabaseUtilities(AddMarkActivity.this).updateMark(new Mark(
+                                    subject,
+                                    Float.parseFloat(((EditText) findViewById(R.id.edit_text_mark_add_mark)).getText().toString()),
+                                    ((Button) findViewById(R.id.edit_text_date_add_mark)).getText().toString(),
+                                    ((EditText) findViewById(R.id.add_mark_edit_text_description)).getText().toString(),
+                                    mark_id
+                            ));
                         }
 
+                        finish();
                     }
+
                 }
         );
+
+        if (mark_id != -1) LoadData();
     }
 
+    private void LoadData() {
+        Mark mark = new DatabaseUtilities(this).getMarkById(mark_id);
+
+        for (int i = 0; i < subjects.size(); i++) {
+            if (mark.get_subject().equals(subjects.get(i))) {
+                ((Spinner) findViewById(R.id.spinner_subject_add_mark)).setSelection(i);
+                break;
+            }
+        }
+        ((EditText) findViewById(R.id.edit_text_mark_add_mark)).setText(Float.toString(mark.get_mark()));
+        ((Button) findViewById(R.id.edit_text_date_add_mark)).setText(mark.get_date());
+        ((EditText) findViewById(R.id.add_mark_edit_text_description)).setText(mark.get_description());
+    }
 }

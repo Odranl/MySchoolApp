@@ -40,4 +40,11 @@
         android:id="@+id/button_add_mark_save"
         style="@style/button_style" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_mark_edit_text_description"
+        android:layout_below="@id/edit_text_date_add_mark"
+        android:hint="Description"/>
+
 </RelativeLayout>

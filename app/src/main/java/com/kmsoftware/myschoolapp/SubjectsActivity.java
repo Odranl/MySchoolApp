@@ -71,7 +71,9 @@ public class SubjectsActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             };
+
                                             AlertDialog.Builder builder = new AlertDialog.Builder(SubjectsActivity.this);
+                                            builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", onClickListener).setNegativeButton("No", onClickListener).show();
 
                                         } else if (item.getItemId() == R.id.menu_edit) {
                                             Intent intent = new Intent(SubjectsActivity.this, AddSubject.class);

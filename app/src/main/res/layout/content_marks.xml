@@ -9,5 +9,6 @@
     tools:showIn="@layout/activity_marks">
 <ListView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    android:id="@+id/mark_list_listview"/>
 </android.support.constraint.ConstraintLayout>

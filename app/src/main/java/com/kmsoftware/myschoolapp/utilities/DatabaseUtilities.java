@@ -168,6 +168,14 @@ public class DatabaseUtilities {
 
     }
 
+    public Mark getMarkById(int id) {
+        for (Mark mark : getMarksList()) {
+            if (mark.get_id() == id) return mark;
+        }
+
+        return null;
+    }
+
     public ArrayList<TimeTableEntry> GetLessonList() {
 
         ArrayList<TimeTableEntry> lessons = new ArrayList<>();
@@ -244,7 +252,7 @@ public class DatabaseUtilities {
 
         cursor.close();
         db.close();
-        
+
         return marks;
     }
 
@@ -287,7 +295,7 @@ public class DatabaseUtilities {
 
         String whereClause = FeedReaderContract.MarksTable._ID + " = ?";
 
-        db.delete(FeedReaderContract.MarksTable.TABLE_NAME, whereClause, new String[] { Integer.toString(mark.get_id())});
+        db.delete(FeedReaderContract.MarksTable.TABLE_NAME, whereClause, new String[]{Integer.toString(mark.get_id())});
 
         db.close();
     }

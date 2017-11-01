@@ -47,8 +47,7 @@ public final class FeedReaderContract {
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-    public final class MarksTable implements BaseColumns
-    {
+    public final class MarksTable implements BaseColumns {
         public static final String TABLE_NAME = "marks";
 
         public static final String COLUMN_NAME_SUBJECT_NAME = "subject_name";
@@ -62,7 +61,7 @@ public final class FeedReaderContract {
                         COLUMN_NAME_SUBJECT_NAME + " TEXT, " +
                         COLUMN_NAME_MARK + " REAL, " +
                         COLUMN_NAME_DATE + " TEXT, " +
-                        COLUMN_NAME_DESCRIPTION + "TEXT)";
+                        COLUMN_NAME_DESCRIPTION + " TEXT)";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;

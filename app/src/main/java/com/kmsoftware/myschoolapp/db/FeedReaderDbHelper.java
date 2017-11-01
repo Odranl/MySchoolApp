@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "TimeTable.db";
 
     public FeedReaderDbHelper(Context context) {
@@ -25,6 +25,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         db.execSQL(FeedReaderContract.SubjectsTable.SQL_CREATE_ENTRIES);
         db.execSQL(FeedReaderContract.TableTimeTable.SQL_CREATE_ENTRIES);
         db.execSQL(FeedReaderContract.MarksTable.SQL_CREATE_ENTRIES);
+
     }
 }
 
