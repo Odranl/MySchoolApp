@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="subject"
+            type="com.kmsoftware.myschoolapp.model.Subject"/>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.kmsoftware.myschoolapp.AddSubject"
+        tools:showIn="@layout/activity_add_subject">
+
+        <EditText
+            android:id="@+id/subject_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:text="@{subject.subjectName}"/>
+
+        <EditText
+            android:id="@+id/subject_name_edit_text_short"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subject_name_edit_text"
+            android:hint="Short name"
+            android:text="@{subject.subjectNameShort}"/>
+
+        <TextView
+            android:id="@+id/subject_color_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subject_name_edit_text_short"
+            android:text="Color" />
+
+        <LinearLayout
+            android:id="@+id/color_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subject_color_text_view"
+            android:weightSum="3">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/red"
+                android:hint="Red"
+                android:textColor="#FF0000"
+                android:textColorHint="#FF0000" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/green"
+                android:hint="Green"
+                android:textColor="#00FF00"
+                android:textColorHint="#00FF00" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/blue"
+                android:hint="Blue"
+                android:textColor="#0000FF"
+                android:textColorHint="#0000FF" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/color_layout"
+            android:id="@+id/color_preview"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/color_preview"
+            android:id="@+id/subject_teacher_edit_text"
+            android:hint="Teacher" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/save_button"
+            android:text="Save"
+            style="@style/button_style" />
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">MySchoolApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_subject">New Subject</string>
+    <string name="title_activity_subjects">SubjectsActivity</string>
+    <string name="title_activity_add_lesson">AddLessonActivity</string>
+    <string name="title_activity_lessons">LessonsActivity</string>
+
+    <!-- Names of days of week -->
+    <array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </array>
+
+    <array name="ordinal_numbers">
+        <item>first</item>
+        <item>second</item>
+        <item>third</item>
+        <item>fourth</item>
+        <item>fifth</item>
+        <item>sixth</item>
+    </array>
+
+    <array name="days_of_week_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </array>
+
+    <string name="lesson_text">%1$s %2$d° lesson</string>
+    <string name="title_activity_marks">MarksActivity</string>
+    <string name="title_activity_add_mark">AddMarkActivity</string>
+</resources>

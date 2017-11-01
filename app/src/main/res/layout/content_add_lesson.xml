@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.kmsoftware.myschoolapp.AddLessonActivity"
+    tools:showIn="@layout/activity_add_lesson"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subject"
+        android:id="@+id/subject_text_view"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerSubject"
+        android:layout_below="@id/subject_text_view"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Day"
+        android:id="@+id/day_text_view"
+        android:layout_below="@id/spinnerSubject"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerDay"
+        android:layout_below="@id/day_text_view"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lesson"
+        android:layout_below="@id/spinnerDay"
+        android:id="@+id/lesson_text_view"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerLesson"
+        android:layout_below="@id/lesson_text_view"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:id="@+id/save_lesson_button"
+        android:layout_alignParentBottom="true"
+        style="@style/button_style"
+        android:text="Save"/>
+</RelativeLayout>
