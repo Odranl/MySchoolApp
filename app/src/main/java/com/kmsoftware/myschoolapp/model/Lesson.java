@@ -1,6 +1,10 @@
 package com.kmsoftware.myschoolapp.model;
 
-public class TimeTableEntry {
+import com.orm.SugarRecord;
+
+public class Lesson extends SugarRecord<Lesson> {
+
+    //region getters and setters
     public Subject getSubject() {
         return subject;
     }
@@ -8,16 +12,6 @@ public class TimeTableEntry {
     public void setSubject(Subject subject) {
         this.subject = subject;
     }
-
-    public int getLesson() {
-        return lesson;
-    }
-
-    public void setLesson(int lesson) {
-        this.lesson = lesson;
-    }
-
-    private Subject subject;
 
     public int getDayOfWeek() {
         return dayOfWeek;
@@ -27,17 +21,28 @@ public class TimeTableEntry {
         this.dayOfWeek = dayOfWeek;
     }
 
+    public int getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(int lesson) {
+        this.lesson = lesson;
+    }
+    //endregion
+
+    private Subject subject;
     private int dayOfWeek;
     private int lesson;
 
-    private int _id;
-    public int getId() {return _id;}
-    public TimeTableEntry(Subject subject, int dayOfWeek, int lesson, int id)
+    public Lesson(){
+
+    }
+
+    public Lesson(Subject subject, int dayOfWeek, int lesson)
     {
         this.subject = subject;
         this.dayOfWeek = dayOfWeek;
         this.lesson = lesson;
-        _id = id;
     }
 
 }

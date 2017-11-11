@@ -43,4 +43,7 @@
     <string name="lesson_text">%1$s %2$d° lesson</string>
     <string name="title_activity_marks">MarksActivity</string>
     <string name="title_activity_add_mark">AddMarkActivity</string>
+    <string name="title_activity_marks_exp_list">MarksExpListActivity</string>
+    <string name="title_activity_tasks">TasksActivity</string>
+    <string name="title_activity_add_task">AddTaskActivity</string>
 </resources>

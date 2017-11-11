@@ -24,4 +24,13 @@ public class Utilities {
         drawable.setCornerRadius(10);
         view.setBackground(drawable);
     }
+
+    public static GradientDrawable generateGradentVariable(Subject subject){
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.OVAL);
+        drawable.setSize(25, 25);
+        drawable.setColor(subject.getSubjectColor());
+
+        return drawable;
+    }
 }

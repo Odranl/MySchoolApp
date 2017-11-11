@@ -1,46 +1,67 @@
 package com.kmsoftware.myschoolapp.model;
 
-public class Mark {
+import com.orm.SugarRecord;
 
-    private Subject _subject;
-    private float _mark;
-    private int _id;
-    private String _date;
-    private String _description;
+import java.util.Calendar;
 
-    public String get_date() {
-        return _date;
+public class Mark extends SugarRecord<Mark>{
+
+    private Subject subject;
+    private float mark;
+    private Calendar date;
+    private String description;
+
+    //region getters and setters
+    public Subject getSubject() {
+        return subject;
     }
 
-    public String get_description() {
-        return _description;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public int get_id() {
-        return _id;
+    public float getMark() {
+        return mark;
     }
 
-    public Subject get_subject() {
-        return _subject;
+    public void setMark(float mark) {
+        this.mark = mark;
     }
 
-    public void set_subject(Subject _subject) {
-        this._subject = _subject;
+    public Calendar getDate() {
+        return date;
     }
 
-    public float get_mark() {
-        return _mark;
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 
-    public void set_mark(float _mark) {
-        this._mark = _mark;
+    public String getDescription() {
+        return description;
     }
 
-    public Mark(Subject subject, float mark, String date, String description, int id) {
-        this._subject = subject;
-        this._mark = mark;
-        this._id = id;
-        this._description = description;
-        this._date = date;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    //endregion
+
+    public Mark(){
+
+    }
+
+    public Mark(Subject subject, float mark, Calendar date, String description) {
+        this.subject = subject;
+        this.mark = mark;
+        this.description = description;
+        this.date = date;
+    }
+
+    public String getMarkReadable(){
+        float decimalPart = mark % 1;
+
+        if (decimalPart == .25) return String.valueOf((int)mark) + "+";
+        else if (decimalPart == .5) return String.valueOf((int)mark) + "½";
+        else if (decimalPart == .75) return String.valueOf((int)mark + 1) + "-";
+        else return String.valueOf((int)mark);
     }
 }

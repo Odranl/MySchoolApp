@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kmsoftware.myschoolapp">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,7 +11,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon"
+        android:name="com.orm.SugarApp">
+
+        <meta-data android:name="DATABASE" android:value="school_app.db" />
+        <meta-data android:name="VERSION" android:value="3" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.kmsoftware" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -22,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddSubject"
+            android:name=".AddSubjectActivity"
             android:label="@string/title_activity_add_subject"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -44,7 +53,19 @@
         <activity
             android:name=".AddMarkActivity"
             android:label="@string/title_activity_add_mark"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MarksExpListActivity"
+            android:label="@string/title_activity_marks_exp_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TasksActivity"
+            android:label="@string/title_activity_tasks"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddTaskActivity"
+            android:label="@string/title_activity_add_task"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

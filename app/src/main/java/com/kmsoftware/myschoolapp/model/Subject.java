@@ -2,50 +2,56 @@ package com.kmsoftware.myschoolapp.model;
 
 import android.graphics.Color;
 
-/**
- * Created by leona on 28/10/2017.
- */
+import com.orm.SugarRecord;
 
-public class Subject {
+public class Subject extends SugarRecord<Subject>{
+
+    //region getter and setters
     public String getSubjectName() {
         return subjectName;
     }
-
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
-
-    private String subjectName = "";
 
     public String getSubjectNameShort() {
         return subjectNameShort;
     }
 
-    private String subjectNameShort = "";
-
     public int getSubjectColor() {
         return subjectColor;
+    }
+
+    public String getTeacher() { return teacher; }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public void setSubjectNameShort(String subjectNameShort) {
+        this.subjectNameShort = subjectNameShort;
     }
 
     public void setSubjectColor(int subjectColor) {
         this.subjectColor = subjectColor;
     }
 
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+    //endregion
+
+    private String subjectName = "";
     private int subjectColor = Color.WHITE;
+    private String teacher = "";
+    private String subjectNameShort = "";
 
-    public String getTeacher() { return teacher; }
+    public Subject(){
 
-    private String teacher;
+    }
 
-    public int getID() {return _ID;}
-    private int _ID;
-
-    public Subject(String subjectName, int subjectColor, String subjectNameShort, String teacher, int id) {
+    public Subject(String subjectName, int subjectColor, String subjectNameShort, String teacher) {
         this.subjectNameShort = subjectNameShort;
         this.subjectName = subjectName;
         this.subjectColor = subjectColor;
         this.teacher = teacher;
-        _ID = id;
     }
 
     @Override

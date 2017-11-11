@@ -1,11 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.kmsoftware.myschoolapp.AddTaskActivity"
-    tools:showIn="@layout/activity_add_task">
+    tools:showIn="@layout/activity_add_task"
+    android:fitsSystemWindows="true">
 
-</android.support.constraint.ConstraintLayout>
+    <Spinner
+        android:id="@+id/spinner_subject_add_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp" />
+
+    <EditText
+        android:id="@+id/edit_text_title_add_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_subject_add_task"
+        android:hint="Title"/>
+
+    <Button
+        android:id="@+id/edit_text_date_add_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_text_title_add_task"
+        android:hint="Date"
+        android:enabled="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Save"
+        android:id="@+id/button_add_task_save"
+        style="@style/button_style" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_task_edit_text_description"
+        android:layout_below="@id/edit_text_date_add_task"
+        android:hint="Description"/>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_task_check_box_completed"
+        android:layout_below="@id/add_task_edit_text_description"
+        android:text="Completed"/>
+
+</RelativeLayout>

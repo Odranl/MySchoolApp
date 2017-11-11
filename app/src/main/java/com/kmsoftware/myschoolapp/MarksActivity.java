@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,16 +17,18 @@ import android.widget.PopupMenu;
 
 import com.kmsoftware.myschoolapp.adapters.MarksCustomAdapter;
 import com.kmsoftware.myschoolapp.model.Mark;
-import com.kmsoftware.myschoolapp.model.Subject;
-import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
 
 import java.util.ArrayList;
 
 public class MarksActivity extends AppCompatActivity {
 
+    private ArrayList<Mark> marksList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_marks);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,27 +56,26 @@ public class MarksActivity extends AppCompatActivity {
 
                         menu.setOnMenuItemClickListener(
                                 new PopupMenu.OnMenuItemClickListener() {
+
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
                                         if (item.getItemId() == R.id.menu_delete) {
-                                            if (item.getItemId() == R.id.menu_delete) {
-                                                DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        if (which == DialogInterface.BUTTON_POSITIVE) {
-                                                            DatabaseUtilities databaseUtilities = new DatabaseUtilities(MarksActivity.this);
-                                                            new DatabaseUtilities(MarksActivity.this).deleteMark(mark);
-                                                        }
+                                            DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    if (which == DialogInterface.BUTTON_POSITIVE) {
+                                                        mark.delete();
+                                                        refreshView();
                                                     }
-                                                };
+                                                }
+                                            };
 
-                                                AlertDialog.Builder builder = new AlertDialog.Builder(MarksActivity.this);
-                                                builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", onClickListener).setNegativeButton("No", onClickListener).show();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(MarksActivity.this);
+                                            builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", onClickListener).setNegativeButton("No", onClickListener).show();
 
-                                            }
                                         } else if (item.getItemId() == R.id.menu_edit) {
                                             Intent intent = new Intent(MarksActivity.this, AddMarkActivity.class);
-                                            intent.putExtra("mark_id", mark.get_id());
+                                            intent.putExtra("mark_id", mark.getId());
                                             startActivity(intent);
                                         }
 
@@ -91,11 +91,37 @@ public class MarksActivity extends AppCompatActivity {
                 }
         );
 
+        marksList = new ArrayList<>(Mark.listAll(Mark.class));
 
-        MarksCustomAdapter adapter = new MarksCustomAdapter(this, R.layout.mark_row_list, new DatabaseUtilities(this).getMarksList());
+        MarksCustomAdapter adapter = new MarksCustomAdapter(this, marksList);
 
         view.setAdapter(adapter);
-
     }
 
+    @Override
+    protected void onResume() {
+        refreshView();
+        super.onResume();
+    }
+
+    //Refresh the data on screen
+    private void refreshView() {
+        ((MarksCustomAdapter) ((ListView) findViewById(R.id.mark_list_listview)).
+                getAdapter()).
+                refreshData(new ArrayList<>(Mark.listAll(Mark.class)));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_view_style_marks, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        startActivity(new Intent(this, MarksExpListActivity.class));
+        finish();
+        return true;
+    }
 }

@@ -17,8 +17,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kmsoftware.myschoolapp.model.TimeTableEntry;
-import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
+import com.kmsoftware.myschoolapp.model.Lesson;
 import com.kmsoftware.myschoolapp.utilities.Utilities;
 
 import java.io.FileInputStream;
@@ -45,14 +44,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        for (TimeTableEntry entry : new DatabaseUtilities(getApplicationContext()).GetLessonList()) {
+        for (Lesson entry : Lesson.listAll(Lesson.class)) {
             Utilities.SetTextViewSubject(ViewSelector(entry), entry.getSubject(), getResources().getConfiguration());
         }
     }
 
     @Override
     protected void onResume() {
-        for (TimeTableEntry entry : new DatabaseUtilities(getApplicationContext()).GetLessonList()) {
+        for (Lesson entry : Lesson.listAll(Lesson.class)) {
             Utilities.SetTextViewSubject(ViewSelector(entry), entry.getSubject(), getResources().getConfiguration());
         }
         super.onResume();
@@ -84,13 +83,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private TextView ViewSelector(TimeTableEntry timeTableEntry) {
+    private TextView ViewSelector(Lesson lesson) {
         String[] ordinalNumbers = getResources().getStringArray(R.array.ordinal_numbers);
         String[] daysShort = getResources().getStringArray(R.array.days_of_week_short);
 
         //Example: firstMon, fifthThu...
         int id = getResources().getIdentifier(
-                ordinalNumbers[timeTableEntry.getLesson()] + daysShort[timeTableEntry.getDayOfWeek()],
+                ordinalNumbers[lesson.getLesson()] + daysShort[lesson.getDayOfWeek()],
                 "id", getApplicationInfo().packageName
         );
 
@@ -143,12 +142,8 @@ public class MainActivity extends AppCompatActivity
             startActivity((new Intent(this, LessonsActivity.class)));
         } else if (id == R.id.nav_marks) {
             startActivity(new Intent(this, MarksActivity.class));
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_tasks) {
+            startActivity(new Intent(this, TasksActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

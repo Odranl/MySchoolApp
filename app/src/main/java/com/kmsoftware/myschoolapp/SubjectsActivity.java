@@ -16,19 +16,22 @@ import android.widget.PopupMenu;
 
 import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
 import com.kmsoftware.myschoolapp.model.Subject;
-import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubjectsActivity extends AppCompatActivity {
 
-    ArrayList<Subject> subjects = null;
+    List<Subject> subjects = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTitle("Subjects");
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_subjects);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,15 +39,16 @@ public class SubjectsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), AddSubject.class));
+                startActivity(new Intent(view.getContext(), AddSubjectActivity.class));
             }
         });
-        DatabaseUtilities db = new DatabaseUtilities(this);
+
+        subjects = Subject.listAll(Subject.class);
+
         ListView view = findViewById(R.id.list);
 
-        subjects = new ArrayList<>(db.getSubjectsList());
         SubjectsCustomAdapter adapter = new SubjectsCustomAdapter(
-                this, R.layout.subject_row, subjects
+                this, new ArrayList<>(subjects)
         );
 
         view.setOnItemLongClickListener(
@@ -52,21 +56,22 @@ public class SubjectsActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onItemLongClick(final AdapterView<?> adapterView, final View v, final int position, final long id) {
+
                         PopupMenu menu = new PopupMenu(v.getContext(), v);
                         menu.setOnMenuItemClickListener(
                                 new PopupMenu.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
+
                                         if (item.getItemId() == R.id.menu_delete) {
                                             DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     if (which == dialog.BUTTON_POSITIVE) {
-                                                        DatabaseUtilities databaseUtilities = new DatabaseUtilities(SubjectsActivity.this.getApplicationContext());
-                                                        databaseUtilities.deleteSubject((Subject) adapterView.getItemAtPosition(position));
-                                                        subjects.remove((int) id);
+                                                        ((Subject) adapterView.getItemAtPosition(position)).delete();
 
-                                                        subjects = new ArrayList<>(databaseUtilities.getSubjectsList());
+                                                        subjects = new ArrayList<>(Subject.listAll(Subject.class));
+
                                                         ((ListView) v.getParent()).invalidateViews();
                                                     }
                                                 }
@@ -76,8 +81,8 @@ public class SubjectsActivity extends AppCompatActivity {
                                             builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", onClickListener).setNegativeButton("No", onClickListener).show();
 
                                         } else if (item.getItemId() == R.id.menu_edit) {
-                                            Intent intent = new Intent(SubjectsActivity.this, AddSubject.class);
-                                            intent.putExtra("subject_id", subjects.get((int) id).getID());
+                                            Intent intent = new Intent(SubjectsActivity.this, AddSubjectActivity.class);
+                                            intent.putExtra("subject_id", subjects.get((int) id).getId());
 
                                             startActivity(intent);
                                         }
@@ -100,6 +105,7 @@ public class SubjectsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ((ListView) findViewById(R.id.list)).invalidateViews();
+        SubjectsCustomAdapter adapter = (SubjectsCustomAdapter)((ListView) findViewById(R.id.list)).getAdapter();
+        adapter.refreshData(new ArrayList<>(Subject.listAll(Subject.class)));
     }
 }

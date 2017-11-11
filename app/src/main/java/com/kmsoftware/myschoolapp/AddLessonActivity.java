@@ -9,27 +9,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.kmsoftware.myschoolapp.model.Subject;
-import com.kmsoftware.myschoolapp.model.TimeTableEntry;
-import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
+import com.kmsoftware.myschoolapp.model.Lesson;
 
 import java.util.ArrayList;
 
 public class AddLessonActivity extends AppCompatActivity {
 
-    int lesson_id = -1;
+    long lesson_id = -1;
     Subject subject = null;
     private final String[] lessons = {"1", "2", "3", "4", "5", "6"};
+
+    Lesson lesson = new Lesson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lesson);
-        lesson_id = getIntent().getIntExtra("lesson_id", -1);
+
+        lesson_id = getIntent().getLongExtra("lesson_id", -1);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ArrayList<Subject> subjects = new DatabaseUtilities(getApplicationContext()).getSubjectsList();
+        ArrayList<Subject> subjects = new ArrayList<>(Subject.listAll(Subject.class));
         Spinner spinner = findViewById(R.id.spinnerSubject);
 
         ArrayAdapter<Subject> subjectArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjects);
@@ -56,33 +58,30 @@ public class AddLessonActivity extends AppCompatActivity {
         spinnerLesson.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lessons));
 
         if (lesson_id != -1) {
-            DatabaseUtilities db = new DatabaseUtilities(this);
-            TimeTableEntry entry = db.getLessonByID(lesson_id);
+            lesson = Lesson.findById(Lesson.class, lesson_id);
 
-            ArrayAdapter<Subject> adapter = (ArrayAdapter<Subject>) spinner.getAdapter();
             int subjectPosition = 0;
-            for (int i = 0; i < subjects.size(); i++)
-            {
-                if (subjects.get(i).equals(entry.getSubject()))
-                {
+            for (int i = 0; i < subjects.size(); i++) {
+                if (subjects.get(i).equals(lesson.getSubject())) {
                     subjectPosition = i;
                     break;
                 }
             }
             spinner.setSelection(subjectPosition);
-            spinnerDay.setSelection(entry.getDayOfWeek());
-            spinnerLesson.setSelection(entry.getLesson());
+            spinnerDay.setSelection(lesson.getDayOfWeek());
+            spinnerLesson.setSelection(lesson.getLesson());
         }
 
         findViewById(R.id.save_lesson_button).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DatabaseUtilities db = new DatabaseUtilities(getApplicationContext());
-                        if (lesson_id == -1)
-                            db.AddLesson(subject, spinnerDay.getSelectedItemPosition(), spinnerLesson.getSelectedItemPosition());
-                        else
-                            db.UpdateLesson(new TimeTableEntry(subject, spinnerDay.getSelectedItemPosition(), spinnerLesson.getSelectedItemPosition(), lesson_id));
+
+                        lesson.setSubject(subject);
+                        lesson.setDayOfWeek(spinnerDay.getSelectedItemPosition());
+                        lesson.setLesson(spinnerLesson.getSelectedItemPosition());
+
+                        lesson.save();
 
                         AddLessonActivity.this.finish();
                     }

@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.kmsoftware.myschoolapp.MarksExpListActivity"
-    tools:showIn="@layout/activity_marks_exp_list">
-
+    tools:context="com.kmsoftware.myschoolapp.MarksActivity"
+    tools:showIn="@layout/activity_marks">
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mark_list_expandablelistview"/>
 </android.support.constraint.ConstraintLayout>
