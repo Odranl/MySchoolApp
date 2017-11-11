@@ -1,9 +1,5 @@
 package com.kmsoftware.myschoolapp.model;
 
-/**
- * Created by leona on 28/10/2017.
- */
-
 public class TimeTableEntry {
     public Subject getSubject() {
         return subject;
