@@ -9,38 +9,60 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.kmsoftware.myschoolapp.model.Subject;
-import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
 
-public class AddSubject extends AppCompatActivity {
-
-    DatabaseUtilities dbUtil;
+public class AddSubjectActivity extends AppCompatActivity {
 
     EditText red = null;
     EditText green = null;
     EditText blue = null;
 
-    int subjectID = -1;
+    long subjectID = -1;
+
+    Subject subject = new Subject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_subject);
-
 
         red = findViewById(R.id.red);
         green = findViewById(R.id.green);
         blue = findViewById(R.id.blue);
 
-        subjectID = this.getIntent().getIntExtra("subject_id", -1);
+        subjectID = this.getIntent().getLongExtra("subject_id", -1);
 
-        if (subjectID != -1)
+        if (subjectID != -1) {
+            subject = Subject.findById(Subject.class, subjectID);
             SetFields();
-
-        dbUtil = new DatabaseUtilities(getApplicationContext());
+        }
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         Button button = findViewById(R.id.save_button);
+
+        button.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                            subject.setSubjectName(getTextFromEditText(R.id.subject_name_edit_text));
+                            subject.setSubjectColor(
+                                    Color.argb(
+                                            255,
+                                            Integer.parseInt(red.getText().toString()),
+                                            Integer.parseInt(green.getText().toString()),
+                                            Integer.parseInt(blue.getText().toString())
+                                    ));
+                            subject.setSubjectNameShort(getTextFromEditText(R.id.subject_name_edit_text_short));
+                            subject.setTeacher(getTextFromEditText(R.id.subject_teacher_edit_text));
+                            subject.save();
+
+                            AddSubjectActivity.this.finish();
+                    }
+
+                }
+        );
+
         View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -50,48 +72,13 @@ public class AddSubject extends AppCompatActivity {
         red.setOnFocusChangeListener(onFocusChangeListener);
         green.setOnFocusChangeListener(onFocusChangeListener);
         blue.setOnFocusChangeListener(onFocusChangeListener);
+    }
 
-        button.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (subjectID == -1) {
-                            dbUtil.addSubject(
-                                    ((EditText) findViewById(R.id.subject_name_edit_text)).getText().toString(),
-                                    ((EditText) findViewById(R.id.subject_name_edit_text_short)).getText().toString(),
-                                    ((EditText) findViewById(R.id.subject_teacher_edit_text)).getText().toString(),
-                                    Color.argb(
-                                            255,
-                                            Integer.parseInt(red.getText().toString()),
-                                            Integer.parseInt(green.getText().toString()),
-                                            Integer.parseInt(blue.getText().toString())
-                                    )
-                            );
-                        } else {
-                            dbUtil.updateSubject(
-                                    new Subject(((EditText) findViewById(R.id.subject_name_edit_text)).getText().toString(),
-                                            Color.argb(
-                                                    255,
-                                                    Integer.parseInt(red.getText().toString()),
-                                                    Integer.parseInt(green.getText().toString()),
-                                                    Integer.parseInt(blue.getText().toString())
-                                            ),
-                                            ((EditText) findViewById(R.id.subject_name_edit_text_short)).getText().toString(),
-                                            ((EditText) findViewById(R.id.subject_teacher_edit_text)).getText().toString(),
-                                            subjectID
-                                    ));
-                        }
-
-                        AddSubject.this.finish();
-                    }
-                }
-        );
+    private String getTextFromEditText(int viewId) {
+        return ((EditText) findViewById(viewId)).getText().toString();
     }
 
     private void SetFields() {
-
-        Subject subject = new DatabaseUtilities(getApplicationContext()).getSubjectByID(subjectID);
-
         ((EditText) findViewById(R.id.subject_name_edit_text)).setText(subject.getSubjectName());
         ((EditText) findViewById(R.id.subject_name_edit_text_short)).setText(subject.getSubjectNameShort());
         ((EditText) findViewById(R.id.subject_teacher_edit_text)).setText(subject.getTeacher());
@@ -107,9 +94,9 @@ public class AddSubject extends AppCompatActivity {
 
     private int GetColor() {
 
-        int redC = 0;
-        int greenC = 0;
-        int blueC = 0;
+        int redC;
+        int greenC;
+        int blueC;
 
         try {
             redC = Integer.parseInt(red.getText().toString());
