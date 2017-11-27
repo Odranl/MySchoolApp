@@ -9,12 +9,13 @@
     tools:showIn="@layout/activity_add_task"
     android:fitsSystemWindows="true">
 
-    <Spinner
+    <com.kmsoftware.myschoolapp.CustomViews.CustomSpinner
         android:id="@+id/spinner_subject_add_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        app:dataType="subject"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -30,6 +31,7 @@
 
     <Button
         android:id="@+id/edit_text_date_add_task"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_input_layout_task_title"

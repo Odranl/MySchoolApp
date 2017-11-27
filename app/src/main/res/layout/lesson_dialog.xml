@@ -51,8 +51,9 @@
             android:textColor="#fff"/>
     </android.support.design.widget.AppBarLayout>
 
-    <ListView
+    <com.kmsoftware.myschoolapp.CustomViews.CustomListView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:minHeight="40dp"/>
+        android:minHeight="40dp"
+        android:id="@+id/task_list_view_main"/>
 </LinearLayout>

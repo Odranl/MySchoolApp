@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomSpinner">
+        <attr name="dataType" format="enum">
+            <enum name="subject" value="0"/>
+            <enum name="lesson" value="1"/>
+            <enum name="mark" value="2"/>
+            <enum name="task" value="3"/>
+        </attr>
+    </declare-styleable>
+</resources>

@@ -12,15 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 
 import com.kmsoftware.myschoolapp.adapters.BaseCustomAdapter;
-import com.kmsoftware.myschoolapp.adapters.CustomListView;
+import com.kmsoftware.myschoolapp.CustomViews.CustomListView;
 import com.kmsoftware.myschoolapp.adapters.LessonsCustomAdapter;
 import com.kmsoftware.myschoolapp.adapters.MarksCustomAdapter;
 import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;

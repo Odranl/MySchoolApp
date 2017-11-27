@@ -20,11 +20,18 @@ import com.orm.SugarRecord;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.List;
 
 public class TasksCustomAdapter extends BaseCustomAdapter<Task> {
 
     public TasksCustomAdapter(Context context) {
         super(context, R.layout.task_row_list);
+    }
+
+    public TasksCustomAdapter(Context context, List<Task> tasks) {
+        super(context, R.layout.task_row_list);
+        data = new ArrayList<>(tasks);
+        refreshData();
     }
 
     @Override
@@ -122,7 +129,8 @@ public class TasksCustomAdapter extends BaseCustomAdapter<Task> {
     @Override
     public ArrayList<Task> loadData(ArrayList<Task> data) {
 
-        data = new ArrayList<>(SugarRecord.listAll(Task.class));
+        if (data == null)
+            data = new ArrayList<>(SugarRecord.listAll(Task.class));
 
         data.add(null);
 

@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             );
 
             if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2 == i ) {
-                columns[i].setBackgroundColor(Color.LTGRAY);
+                columns[i].setBackgroundColor(Color.argb(100, 220, 220, 220));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     columns[i].setElevation(8);
                 }
@@ -225,9 +225,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             params.setMargins(0, i * 170, 0, 0);
             view.setLayoutParams(params);
             //The line will be of a Dark gray color
-            view.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            view.setBackgroundColor(Color.argb(255, 200, 200, 200));
             relativeLayout.addView(view);
         }
+
+        relativeLayout = findViewById(R.id.time_layout);
 
         if (lineView == null) {
             lineView = new View(this);
@@ -235,10 +237,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             params.setMargins(0, (int) (4080 * hourToNumber(new Lesson(null, 0, Calendar.getInstance(), 0))), 0, 0);
             lineView.setLayoutParams(params);
             //The line will be of a Dark gray color
-            lineView.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+            lineView.setBackgroundColor(Color.argb(100, 0, 150, 0));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                lineView.setElevation(4);
+                lineView.setElevation(6);
             }
             relativeLayout.addView(lineView);
         } else {
@@ -293,7 +295,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 LessonDialog dialog = new LessonDialog();
 
-                dialog.lesson = lesson;
+                Bundle bundle = new Bundle();
+                bundle.putLong("lesson_id", lesson.getId());
+
+                dialog.setArguments(bundle);
 
                 dialog.show(MainActivity.this.getFragmentManager(), "Test");
 

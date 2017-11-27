@@ -10,4 +10,7 @@
     android:id="@+id/root_layout_generic_list"
     android:clipToPadding="false"
     android:background="@android:color/white">
+    <com.kmsoftware.myschoolapp.CustomViews.CustomListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>

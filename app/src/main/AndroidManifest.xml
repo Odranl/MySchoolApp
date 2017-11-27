@@ -50,10 +50,6 @@
             android:label="@string/title_activity_add_mark"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MarksExpListActivity"
-            android:label="@string/title_activity_marks_exp_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".AddTaskActivity"
             android:label="@string/title_activity_add_task"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -9,12 +9,13 @@
     tools:showIn="@layout/activity_add_mark"
     android:fitsSystemWindows="true">
 
-    <Spinner
+    <com.kmsoftware.myschoolapp.CustomViews.CustomSpinner
         android:id="@+id/spinner_subject_add_mark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:padding="5dp" />
+        android:padding="5dp"
+        app:dataType="subject"/>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

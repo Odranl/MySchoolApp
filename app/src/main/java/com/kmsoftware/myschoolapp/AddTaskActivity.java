@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import com.kmsoftware.myschoolapp.CustomViews.CustomSpinner;
 import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
 import com.kmsoftware.myschoolapp.dialogs.DatePickerDialog;
 import com.kmsoftware.myschoolapp.model.Subject;
@@ -30,7 +31,7 @@ public class AddTaskActivity extends AppCompatActivity {
     ViewHolder views = null;
 
     public class ViewHolder {
-        Spinner subjectsSpinner;
+        CustomSpinner subjectsSpinner;
         TextInputEditText taskTitleEditText;
         Button taskDate;
         TextInputEditText taskDescriptionEditText;
@@ -77,7 +78,6 @@ public class AddTaskActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        views.subjectsSpinner.setAdapter(new SubjectsCustomAdapter(this));
         views.subjectsSpinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
