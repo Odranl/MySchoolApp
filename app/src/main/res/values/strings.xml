@@ -46,4 +46,7 @@
     <string name="title_activity_marks_exp_list">MarksExpListActivity</string>
     <string name="title_activity_tasks">TasksActivity</string>
     <string name="title_activity_add_task">AddTaskActivity</string>
+    <string name="title_activity_generic_list">GenericListActivity</string>
+    <string name="completed_tasks_header">Completed tasks</string>
+    <string name="subject_name_edit_text_hint">Name</string>
 </resources>

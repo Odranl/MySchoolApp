@@ -1,50 +1,84 @@
 package com.kmsoftware.myschoolapp;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
+import com.kmsoftware.myschoolapp.dialogs.DatePickerDialog;
 import com.kmsoftware.myschoolapp.model.Subject;
 import com.kmsoftware.myschoolapp.model.Task;
 import com.kmsoftware.myschoolapp.utilities.DateFormatter;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddTaskActivity extends AppCompatActivity {
 
-    Task task = new Task();
-    Subject subject = new Subject();    //The subject selected from the spinner
-    long task_id = -1;
+    Task task = null;
+    Subject subject = null;    //The subject selected from the spinner
+
+    ViewHolder views = null;
+
+    public class ViewHolder {
+        Spinner subjectsSpinner;
+        TextInputEditText taskTitleEditText;
+        Button taskDate;
+        TextInputEditText taskDescriptionEditText;
+        Button saveButton;
+        DatePickerDialog datePickerDialog;
+        CheckBox checkBox;
+
+        ViewHolder() {
+            subjectsSpinner = findViewById(R.id.spinner_subject_add_task);
+            taskTitleEditText = findViewById(R.id.edit_text_title_add_task);
+            taskDate = findViewById(R.id.edit_text_date_add_task);
+            taskDescriptionEditText = findViewById(R.id.add_task_edit_text_description);
+            saveButton = findViewById(R.id.button_add_task_save);
+            checkBox = findViewById(R.id.add_task_check_box_completed);
+            datePickerDialog = new DatePickerDialog(
+                    AddTaskActivity.this,
+                    new android.app.DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                            taskDate.setText(DateFormat.getDateInstance(DateFormat.LONG).format(datePickerDialog.getCalendar().getTime()));
+
+                            task.setDateDue(datePickerDialog.getCalendar());
+                            view.clearFocus();
+                        }
+                    },
+                    Calendar.getInstance());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_task);
 
-        if ((task_id = getIntent().getLongExtra("task_id", -1)) != -1) {
+        views = new ViewHolder();
+
+        long task_id;
+
+        if ((task_id = getIntent().getLongExtra("id", -1)) != -1) {
             task = Task.findById(Task.class, task_id);
         }
-
-        setContentView(R.layout.activity_add_task);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Spinner spinner = findViewById(R.id.spinner_subject_add_task);
-        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Subject.listAll(Subject.class)));
-        spinner.setOnItemSelectedListener(
+        views.subjectsSpinner.setAdapter(new SubjectsCustomAdapter(this));
+        views.subjectsSpinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -58,80 +92,58 @@ public class AddTaskActivity extends AppCompatActivity {
                 }
         );
 
-        findViewById(R.id.edit_text_date_add_task).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        String buttonText = ((Button) findViewById(R.id.edit_text_date_add_task)).getText().toString();
-
-                        if (!buttonText.equals("")) {
-                            Calendar calendarSelectedDate = task.getDateDue();
-
-                            DatePickerDialog dialog = new DatePickerDialog(AddTaskActivity.this,
-                                    new DatePickerDialog.OnDateSetListener() {
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                            ((Button) findViewById(R.id.edit_text_date_add_task)).setText(DateFormatter.getFormattedDate(year, month + 1, dayOfMonth));
-                                            task.setDateDue(DateFormatter.getCalendarFromLong(DateFormatter.getLongFromDate(year, month, dayOfMonth)));
-                                        }
-                                    },
-                                    calendarSelectedDate.get(Calendar.YEAR),
-                                    calendarSelectedDate.get(Calendar.MONTH),
-                                    calendarSelectedDate.get(Calendar.DAY_OF_MONTH)
-                            );
-
-                            dialog.show();
-                        } else {
-                            Calendar calendar = Calendar.getInstance();
-
-                            DatePickerDialog dialog = new DatePickerDialog(AddTaskActivity.this,
-                                    new DatePickerDialog.OnDateSetListener() {
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                            ((Button) findViewById(R.id.edit_text_date_add_task)).setText(DateFormatter.getFormattedDate(year, month + 1, dayOfMonth));
-                                            task.setDateDue(DateFormatter.getCalendarFromLong(DateFormatter.getLongFromDate(year, month, dayOfMonth)));
-                                        }
-                                    },
-                                    calendar.get(Calendar.YEAR),
-                                    calendar.get(Calendar.MONTH),
-                                    calendar.get(Calendar.DAY_OF_MONTH)
-                            );
-
-                            dialog.show();
-                        }
-                    }
+        views.taskDate.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    views.datePickerDialog.show();
                 }
+            }
         );
 
-        findViewById(R.id.button_add_task_save).setOnClickListener(
+        views.saveButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (((Button) findViewById(R.id.edit_text_date_add_task)).getText().equals("")) {
+                        if (task.getDateDue() == null) {
                             new AlertDialog.Builder(
-                                    AddTaskActivity.this).setMessage("Select a date!").setNeutralButton(
-                                    "Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                        }
-                                    }
-                            ).show();
+                                    AddTaskActivity.this)
+                                    .setMessage("Select a date!")
+                                    .setNeutralButton("Ok", null)
+                                    .show();
                         } else {
                             task.setSubject(subject);
-                            task.setDescription(((EditText) findViewById(R.id.add_task_edit_text_description)).getText().toString());
-                            task.setTitle(((EditText) findViewById(R.id.edit_text_title_add_task)).getText().toString());
-                            task.setCompleted(((CheckBox)findViewById(R.id.add_task_check_box_completed)).isChecked());
+                            task.setDescription(views.taskDescriptionEditText.getText().toString());
+                            task.setTitle(views.taskTitleEditText.getText().toString());
+                            task.setCompleted(views.checkBox.isChecked());
                             task.save();
                             finish();
                         }
-
-                        finish();
                     }
 
                 }
         );
+
+        if (task != null) {
+            loadData();
+        } else {
+            task = new Task();
+        }
+    }
+
+    private void loadData() {
+        List<Subject> subjects = ((SubjectsCustomAdapter)views.subjectsSpinner.getAdapter()).getData();
+        for (int i = 0; i < subjects.size(); i++) {
+            if (task.getSubject().equals(subjects.get(i))) {
+                views.subjectsSpinner.setSelection(i);
+                break;
+            }
+        }
+        views.taskTitleEditText.setText(task.getTitle());
+        views.taskDate.setText(DateFormatter.getFormattedDate(DateFormatter.formatDateAsLong((task.getDateDue()))));
+        views.taskDescriptionEditText.setText(task.getDescription());
+        views.checkBox.setChecked(task.isCompleted());
+        views.datePickerDialog.getDatePicker().init(task.getDateDue().get(Calendar.YEAR), task.getDateDue().get(Calendar.MONTH), task.getDateDue().get(Calendar.DAY_OF_MONTH), null);
     }
 
 }

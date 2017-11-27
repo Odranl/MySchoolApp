@@ -55,7 +55,16 @@ public class MarksExpListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        startActivity(new Intent(this, MarksActivity.class));
+        Intent intent = new Intent(this, GenericListActivity.class);
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString("class", Mark.class.getName());
+        bundle.putBoolean("expandableList", false);
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+
         finish();
 
         return true;

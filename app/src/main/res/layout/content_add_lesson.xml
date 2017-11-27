@@ -35,25 +35,36 @@
         android:id="@+id/spinnerDay"
         android:layout_below="@id/day_text_view"/>
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lesson"
         android:layout_below="@id/spinnerDay"
-        android:id="@+id/lesson_text_view"/>
+        android:id="@+id/button_time_pick"
+        android:text="Pick Time"/>
 
-    <Spinner
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerLesson"
-        android:layout_below="@id/lesson_text_view"/>
-
+        android:layout_below="@id/button_time_pick">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Lesson's length *"
+            android:inputType="number"
+            android:id="@+id/lesson_length_edit_text"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="Minutes"
+            android:textColor="@android:color/darker_gray"/>
+    </android.support.design.widget.TextInputLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:id="@+id/save_lesson_button"
         android:layout_alignParentBottom="true"
-        style="@style/button_style"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:text="Save"/>
 </RelativeLayout>

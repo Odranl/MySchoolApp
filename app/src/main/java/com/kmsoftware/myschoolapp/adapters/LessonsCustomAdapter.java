@@ -1,5 +1,6 @@
 package com.kmsoftware.myschoolapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import com.kmsoftware.myschoolapp.R;
 import com.kmsoftware.myschoolapp.model.Subject;
 import com.kmsoftware.myschoolapp.model.Lesson;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,30 +23,40 @@ public class LessonsCustomAdapter extends BaseExpandableCustomAdapter<Subject, L
         super(context, dataHeader, childData);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         Lesson lesson = (Lesson) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            convertView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.lesson_row, null);
+            LayoutInflater inflater;
+            if ((inflater = (LayoutInflater)(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))) != null) {
+                convertView = inflater.inflate(R.layout.lesson_row, null);
+            }
         }
 
-        int day = lesson.getDayOfWeek();
-        String[] days = convertView.getResources().getStringArray(R.array.days_of_week);
+        if (convertView != null) {
+            int day = lesson.getDayOfWeek();
 
-        //Sets the tex of the child element as "[Day] [Lesson number]° lesson" example: "Monday 1° lesson"
-        ((TextView) convertView.findViewById(R.id.lesson_lesson)).setText(
-                (convertView.getResources().getString(R.string.lesson_text, days[day], lesson.getLesson() + 1)));
+            String[] days = convertView.getResources().getStringArray(R.array.days_of_week);
+
+            ((TextView) convertView.findViewById(R.id.lesson_lesson)).setText(
+                    (days[day] + " " + SimpleDateFormat.getTimeInstance(DateFormat.SHORT).format(lesson.getHour().getTime()))
+            );
+        }
 
         return convertView;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         Subject subject = dataHeaders.get(groupPosition);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.lesson_group_explist, null);
+        if (inflater != null) {
+            convertView = inflater.inflate(R.layout.lesson_group_explist, null);
+        }
 
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.OVAL);

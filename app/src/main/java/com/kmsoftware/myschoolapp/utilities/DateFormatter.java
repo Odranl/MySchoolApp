@@ -24,6 +24,13 @@ public class DateFormatter {
         }
     }
 
+    public static Calendar getCalendarFromDatePicker(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar;
+    }
+
     public static String getFormattedDate(int year, int month, int day){
         return DateFormat.getDateInstance().format(DateFormatter.getCalendarFromLong(
                         Long.parseLong(String.format("%d%02d%02d", year, month, day))).getTime());

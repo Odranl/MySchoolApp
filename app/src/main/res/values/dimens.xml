@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="table_padding">2dp</dimen>
     <dimen name="table_margin">5dp</dimen>
+    <dimen name="time_table_height">4000dp</dimen>
 </resources>

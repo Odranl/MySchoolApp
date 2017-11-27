@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:text="Title"
+            android:text=""
             android:textStyle="bold" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:text="Subject"
+            android:text=""
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -49,6 +49,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:gravity="end"
-        android:text="DateDue" />
+        android:text="" />
 
 </LinearLayout>

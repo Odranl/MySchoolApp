@@ -9,10 +9,6 @@ import android.widget.TextView;
 import com.kmsoftware.myschoolapp.R;
 import com.kmsoftware.myschoolapp.model.Subject;
 
-/**
- * Created by leona on 28/10/2017.
- */
-
 public class Utilities {
     public static void SetTextViewSubject(TextView view, Subject subject, Configuration configuration)
     {

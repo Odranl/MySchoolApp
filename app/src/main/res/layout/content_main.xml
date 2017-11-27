@@ -13,11 +13,11 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginLeft="0dp"
         android:background="@color/colorAccent"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="8">
+        android:weightSum="8"
+        android:elevation="2dp">
 
         <TextView
             android:id="@+id/empty"
@@ -83,362 +83,27 @@
             android:text="Sun" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header"
-        android:orientation="vertical"
-        android:weightSum="7.5">
+        android:layout_below="@id/header">
 
-        <LinearLayout
-            android:id="@+id/firstRow"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@id/header"
-            android:layout_marginLeft="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="8">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/firstLesson"
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="1°" />
+                android:id="@+id/line_layout"/>
 
-            <TextView
-                android:id="@+id/firstMon"
-                style="@style/TimeTableEntryStyle" />
+            <LinearLayout
+                android:id="@+id/time_table_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="8" />
+        </RelativeLayout>
+    </ScrollView>
 
-            <TextView
-                android:id="@+id/firstTue"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/firstWed"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/firstThu"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/firstFri"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/firstSat"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/firstSun"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/secondRow"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@id/firstRow"
-            android:layout_marginLeft="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="8">
-
-            <TextView
-                android:id="@+id/secondLesson"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="2°" />
-
-            <TextView
-                android:id="@+id/secondMon"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/secondTue"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/secondWed"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/secondThu"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/secondFri"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/secondSat"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/secondSun"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/thirdRow"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@id/secondRow"
-            android:layout_marginLeft="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="8">
-
-            <TextView
-                android:id="@+id/thirdLesson"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="3°" />
-
-            <TextView
-                android:id="@+id/thirdMon"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/thirdTue"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/thirdWed"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/thirdThu"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/thirdFri"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/thirdSat"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/thirdSun"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/firstBreak"
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_below="@id/thirdRow"
-            android:layout_weight=".5" />
-
-        <LinearLayout
-            android:id="@+id/fourthRow"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@id/firstBreak"
-            android:layout_marginLeft="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="8">
-
-            <TextView
-                android:id="@+id/fourthLesson"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="4°" />
-
-            <TextView
-                android:id="@+id/fourthMon"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fourthTue"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fourthWed"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fourthThu"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fourthFri"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fourthSat"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fourthSun"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fifthRow"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@id/fourthRow"
-            android:layout_marginLeft="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="8">
-
-            <TextView
-                android:id="@+id/fifthLesson"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="5°" />
-
-            <TextView
-                android:id="@+id/fifthMon"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fifthTue"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fifthWed"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fifthThu"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fifthFri"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fifthSat"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/fifthSun"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/secondBreak"
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_below="@id/fifthRow"
-            android:layout_weight=".5" />
-
-        <LinearLayout
-            android:id="@+id/sixthRow"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@id/secondBreak"
-            android:layout_marginLeft="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="8">
-
-            <TextView
-                android:id="@+id/sixthLesson"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="6°" />
-
-            <TextView
-                android:id="@+id/sixthMon"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/sixthTue"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/sixthWed"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/sixthThu"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/sixthFri"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/sixthSat"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/sixthSun"
-                style="@style/TimeTableEntryStyle"
-                android:text="" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_below="@id/fifthRow"
-            android:layout_weight=".5"
-            android:background="@color/colorAccent" />
-
-    </LinearLayout>
 </RelativeLayout>
