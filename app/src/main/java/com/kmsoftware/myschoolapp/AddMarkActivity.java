@@ -2,63 +2,83 @@ package com.kmsoftware.myschoolapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
 import com.kmsoftware.myschoolapp.model.Mark;
 import com.kmsoftware.myschoolapp.model.Subject;
-import com.kmsoftware.myschoolapp.utilities.DatabaseUtilities;
+import com.kmsoftware.myschoolapp.utilities.DateFormatter;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddMarkActivity extends AppCompatActivity {
 
     private Subject subject = null;
-    private int mark_id = -1;
+    Mark mark = null;
+    ViewHolder views = null;
 
-    private ArrayList<Subject> subjects = null;
+    public class ViewHolder {
+        Spinner subjects;
+        TextInputEditText markEditText;
+        Button datePicker;
+        TextInputEditText description;
+        com.kmsoftware.myschoolapp.dialogs.DatePickerDialog datePickerDialog;
+        Button saveButton;
+
+        ViewHolder() {
+            subjects = findViewById(R.id.spinner_subject_add_mark);
+            markEditText = findViewById(R.id.edit_text_mark_add_mark);
+            datePicker = findViewById(R.id.edit_text_date_add_mark);
+            description = findViewById(R.id.add_mark_edit_text_description);
+            saveButton = findViewById(R.id.button_add_mark_save);
+            datePickerDialog = new com.kmsoftware.myschoolapp.dialogs.DatePickerDialog(
+                    AddMarkActivity.this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                            datePicker.setText(DateFormat
+                                    .getDateInstance(DateFormat.LONG)
+                                    .format(datePickerDialog.getCalendar().getTime()));
+
+                            mark.setDate(datePickerDialog.getCalendar());
+
+                            view.clearFocus();
+                        }
+                    },
+                    Calendar.getInstance());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mark);
 
-        mark_id = getIntent().getIntExtra("mark_id", -1);
+        views = new ViewHolder();
+
+        long mark_id;
+        if ((mark_id = getIntent().getLongExtra("id", -1)) != -1) {
+            mark = Mark.findById(Mark.class, mark_id);
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Button button = findViewById(R.id.button_add_mark_save);
-        button.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        SubjectsCustomAdapter adapter = new SubjectsCustomAdapter(this);
 
-                    }
-                }
-        );
-
-        subjects = new DatabaseUtilities(this).getSubjectsList();
-
-        ArrayAdapter<Subject> subjectArrayAdapter = new ArrayAdapter<Subject>(
-                this, android.R.layout.simple_spinner_item,
-                subjects
-        );
-
-        Spinner spinner = findViewById(R.id.spinner_subject_add_mark);
-        spinner.setAdapter(subjectArrayAdapter);
-        spinner.setOnItemSelectedListener(
+        views.subjects.setAdapter(adapter);
+        views.subjects.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -72,106 +92,61 @@ public class AddMarkActivity extends AppCompatActivity {
                 }
         );
 
-        findViewById(R.id.edit_text_date_add_mark).setOnClickListener(
+        views.datePicker.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-
-                        Calendar calendar = Calendar.getInstance();
-                        String[] date;
-                        String buttonText = ((Button) findViewById(R.id.edit_text_date_add_mark)).getText().toString();
-                        if (!buttonText.equals("")) {
-                            date = buttonText.split("/");
-
-                            DatePickerDialog dialog = new DatePickerDialog(AddMarkActivity.this,
-                                    new DatePickerDialog.OnDateSetListener() {
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                            ((Button) findViewById(R.id.edit_text_date_add_mark)).setText(String.format("%02d/%02d/%d", dayOfMonth, month + 1, year));
-                                        }
-                                    },
-
-                                    Integer.parseInt(date[2]),
-                                    Integer.parseInt(date[1]) - 1,
-                                    Integer.parseInt(date[0]));
-
-                            dialog.show();
-                        } else {
-                            DatePickerDialog dialog = new DatePickerDialog(AddMarkActivity.this,
-                                    new DatePickerDialog.OnDateSetListener() {
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                            ((Button) findViewById(R.id.edit_text_date_add_mark)).setText(String.format("%02d/%02d/%d", dayOfMonth, month + 1, year));
-                                        }
-                                    },
-
-                                    calendar.get(Calendar.YEAR),
-                                    calendar.get(Calendar.MONTH),
-                                    calendar.get(Calendar.DAY_OF_MONTH)
-
-                            );
-
-                            dialog.show();
-                        }
+                    public void onClick(final View v) {
+                        views.datePickerDialog.show();
                     }
                 }
         );
 
-        findViewById(R.id.button_add_mark_save).setOnClickListener(
+        views.saveButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mark_id == -1) {
-                            if (((Button) findViewById(R.id.edit_text_date_add_mark)).getText().equals("")) {
-                                new AlertDialog.Builder(
-                                        AddMarkActivity.this).setMessage("Select a date!").setNeutralButton(
-                                        "Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                            }
-                                        }
-                                ).show();
-                            } else {
-                                new DatabaseUtilities(AddMarkActivity.this).addMark(subject,
-                                        Float.parseFloat(((EditText) findViewById(R.id.edit_text_mark_add_mark)).getText().toString()),
-                                        ((Button) findViewById(R.id.edit_text_date_add_mark)).getText().toString(),
-                                        ((EditText) findViewById(R.id.add_mark_edit_text_description)).getText().toString()
-                                );
-
-                                finish();
-                            }
-
+                        if (mark.getDate() == null) {
+                            new AlertDialog.Builder(
+                                    AddMarkActivity.this).setMessage("Select a date!")
+                                    .setNeutralButton("Ok", null)
+                                    .show();
                         } else {
-                            new DatabaseUtilities(AddMarkActivity.this).updateMark(new Mark(
-                                    subject,
-                                    Float.parseFloat(((EditText) findViewById(R.id.edit_text_mark_add_mark)).getText().toString()),
-                                    ((Button) findViewById(R.id.edit_text_date_add_mark)).getText().toString(),
-                                    ((EditText) findViewById(R.id.add_mark_edit_text_description)).getText().toString(),
-                                    mark_id
-                            ));
+                            mark.setSubject(subject);
+                            mark.setMark(Float.parseFloat(views.markEditText.getText().toString()));
+                            mark.setDescription(views.description.getText().toString());
+
+                            mark.save();
+                            finish();
                         }
 
-                        finish();
                     }
 
                 }
         );
 
-        if (mark_id != -1) LoadData();
+        if (mark != null) {
+            LoadData();
+        } else {
+            mark = new Mark();
+        }
     }
 
     private void LoadData() {
-        Mark mark = new DatabaseUtilities(this).getMarkById(mark_id);
 
-        for (int i = 0; i < subjects.size(); i++) {
-            if (mark.get_subject().equals(subjects.get(i))) {
-                ((Spinner) findViewById(R.id.spinner_subject_add_mark)).setSelection(i);
+
+        List<Subject> subjectList = ((SubjectsCustomAdapter)views.subjects.getAdapter()).getData();
+
+        for (int i = 0; i < subjectList.size(); i++) {
+            if (mark.getSubject().equals(subjectList.get(i))) {
+                views.subjects.setSelection(i);
                 break;
             }
         }
-        ((EditText) findViewById(R.id.edit_text_mark_add_mark)).setText(Float.toString(mark.get_mark()));
-        ((Button) findViewById(R.id.edit_text_date_add_mark)).setText(mark.get_date());
-        ((EditText) findViewById(R.id.add_mark_edit_text_description)).setText(mark.get_description());
+
+        views.markEditText.setText(String.valueOf(mark.getMark()));
+        views.datePicker.setText(DateFormatter.getFormattedDate(DateFormatter.formatDateAsLong((mark.getDate()))));
+        views.description.setText(mark.getDescription());
+        views.datePickerDialog.getDatePicker().init(mark.getDate().get(Calendar.YEAR), mark.getDate().get(Calendar.MONTH), mark.getDate().get(Calendar.DAY_OF_MONTH), null);
+
     }
 }

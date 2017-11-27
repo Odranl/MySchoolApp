@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:id="@+id/linear_layout_mark_group"
+    android:fitsSystemWindows="true">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/subject_name_mark_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:text="Mark"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+
+</LinearLayout>

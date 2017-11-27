@@ -5,36 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.kmsoftware.myschoolapp.AddMarkActivity"
-    tools:showIn="@layout/activity_add_mark"
+    tools:context="com.kmsoftware.myschoolapp.AddTaskActivity"
+    tools:showIn="@layout/activity_add_task"
     android:fitsSystemWindows="true">
 
     <Spinner
-        android:id="@+id/spinner_subject_add_mark"
+        android:id="@+id/spinner_subject_add_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:padding="5dp" />
+        android:padding="5dp"/>
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_input_layout_mark"
-        android:layout_below="@id/spinner_subject_add_mark">
+        android:id="@+id/text_input_layout_task_title"
+        android:layout_below="@id/spinner_subject_add_task">
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/edit_text_mark_add_mark"
+            android:id="@+id/edit_text_title_add_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mark"
-            android:inputType="numberDecimal" />
+            android:hint="Title"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/edit_text_date_add_mark"
+        android:id="@+id/edit_text_date_add_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_input_layout_mark"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:text="Date"
+        android:layout_below="@id/text_input_layout_task_title"
+        android:hint="Date"
         android:enabled="true" />
 
     <Button
@@ -42,18 +41,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Save"
-        android:id="@+id/button_add_mark_save"
+        android:id="@+id/button_add_task_save"
         style="@style/Widget.AppCompat.Button.Colored" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_text_date_add_mark">
+        android:id="@+id/text_input_layout_task_description"
+        android:layout_below="@id/edit_text_date_add_task">
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/add_mark_edit_text_description"
+            android:id="@+id/add_task_edit_text_description"
             android:hint="Description"/>
     </android.support.design.widget.TextInputLayout>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_task_check_box_completed"
+        android:layout_below="@id/text_input_layout_task_description"
+        android:text="Completed"/>
 
 </RelativeLayout>

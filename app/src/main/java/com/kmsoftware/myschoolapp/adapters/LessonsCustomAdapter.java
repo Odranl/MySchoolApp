@@ -1,97 +1,62 @@
 package com.kmsoftware.myschoolapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.kmsoftware.myschoolapp.R;
 import com.kmsoftware.myschoolapp.model.Subject;
-import com.kmsoftware.myschoolapp.model.TimeTableEntry;
+import com.kmsoftware.myschoolapp.model.Lesson;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
-public class LessonsCustomAdapter extends BaseExpandableListAdapter {
+public class LessonsCustomAdapter extends BaseExpandableCustomAdapter<Subject, Lesson> {
 
-
-    private Context context;
-    private List<Subject> dataHeader;
-    private HashMap<Subject, List<TimeTableEntry>> childData;
-
-    public LessonsCustomAdapter(Context context, List<Subject> dataHeader, HashMap<Subject, List<TimeTableEntry>> childData) {
-        this.context = context;
-        this.dataHeader = dataHeader;
-        this.childData = childData;
+    public LessonsCustomAdapter(Context context, List<Subject> dataHeader, HashMap<Subject, List<Lesson>> childData) {
+        super(context, dataHeader, childData);
     }
 
-    @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return childData.get(dataHeader.get(groupPosition)).get(childPosition);
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
+    @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        TimeTableEntry lesson = (TimeTableEntry) getChild(groupPosition, childPosition);
+        Lesson lesson = (Lesson) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            convertView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.lesson_row, null);
+            LayoutInflater inflater;
+            if ((inflater = (LayoutInflater)(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))) != null) {
+                convertView = inflater.inflate(R.layout.lesson_row, null);
+            }
         }
 
-        int day = lesson.getDayOfWeek();
-        String[] days = convertView.getResources().getStringArray(R.array.days_of_week);
+        if (convertView != null) {
+            int day = lesson.getDayOfWeek();
 
-        //Sets the tex of the child element as "[Day] [Lesson number]° lesson" example: "Monday 1° lesson"
-        ((TextView) convertView.findViewById(R.id.lesson_lesson)).setText(
-                (convertView.getResources().getString(R.string.lesson_text, days[day], lesson.getLesson() + 1)));
+            String[] days = convertView.getResources().getStringArray(R.array.days_of_week);
+
+            ((TextView) convertView.findViewById(R.id.lesson_lesson)).setText(
+                    (days[day] + " " + SimpleDateFormat.getTimeInstance(DateFormat.SHORT).format(lesson.getHour().getTime()))
+            );
+        }
 
         return convertView;
     }
 
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    }
-
-    @Override
-    public int getGroupCount() {
-        return dataHeader.size();
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return childData.get(dataHeader.get(groupPosition)).size();
-    }
-
-    @Override
-    public Object getGroup(int groupPosition) {
-        return dataHeader.get(groupPosition);
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return groupPosition;
-    }
-
+    @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        Subject subject = dataHeader.get(groupPosition);
+        Subject subject = dataHeaders.get(groupPosition);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.lesson_group_explist, null);
+        if (inflater != null) {
+            convertView = inflater.inflate(R.layout.lesson_group_explist, null);
+        }
 
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.OVAL);

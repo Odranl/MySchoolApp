@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_margin="5dp"
+    android:padding="5dp">
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/test"
+        android:id="@+id/mark_child_dot_color"
+        android:text="8+"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"/>
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mark_child_date"
+            android:text="Date"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"/>
+</LinearLayout>

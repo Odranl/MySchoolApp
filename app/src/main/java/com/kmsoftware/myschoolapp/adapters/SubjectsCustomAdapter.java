@@ -1,48 +1,58 @@
 package com.kmsoftware.myschoolapp.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.kmsoftware.myschoolapp.R;
 import com.kmsoftware.myschoolapp.model.Subject;
+import com.orm.SugarRecord;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-/**
- * Created by leona on 29/10/2017.
- */
+public class SubjectsCustomAdapter extends BaseCustomAdapter<Subject> {
 
-public class SubjectsCustomAdapter extends ArrayAdapter<Subject> {
-
-    public SubjectsCustomAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Subject> objects) {
-        super(context, resource, objects);
+    public SubjectsCustomAdapter(@NonNull Context context) {
+        super(context, R.layout.subject_row);
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.subject_row, null);
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        convertView = super.getView(position, convertView, parent);
+
+        Subject subject = getItem(position);
 
         GradientDrawable drawable = new GradientDrawable();
+
         drawable.setShape(GradientDrawable.OVAL);
-        drawable.setSize(10, 10);
-        drawable.setColor(getItem(position).getSubjectColor());
-        ((TextView)convertView.findViewById(R.id.dot_color)).setBackground(drawable);
-        ((TextView)convertView.findViewById(R.id.subject_name)).setText(getItem(position).getSubjectName());
-        ((TextView)convertView.findViewById(R.id.subject_teacher)).setText(getItem(position).getTeacher());
+        drawable.setSize(20, 20);
+        drawable.setColor(subject.getSubjectColor());
+
+        convertView.findViewById(R.id.dot_color).setBackground(drawable);
+
+        ((TextView)convertView.findViewById(R.id.subject_name)).setText(subject.getSubjectName());
+        ((TextView)convertView.findViewById(R.id.subject_teacher)).setText(subject.getTeacher());
 
         return convertView;
     }
 
+    @Override
+    public ArrayList<Subject> loadData(ArrayList<Subject> data) {
+        return new ArrayList<>(SugarRecord.listAll(Subject.class));
+    }
 
+    @Override
+    protected Comparator<Subject> getComparator() {
+        return new Comparator<Subject>() {
+            @Override
+            public int compare(Subject o1, Subject o2) {
+                return o1.getSubjectName().compareTo(o2.getSubjectName());
+            }
+        };
+    }
 }

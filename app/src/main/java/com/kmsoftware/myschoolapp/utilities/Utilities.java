@@ -9,10 +9,6 @@ import android.widget.TextView;
 import com.kmsoftware.myschoolapp.R;
 import com.kmsoftware.myschoolapp.model.Subject;
 
-/**
- * Created by leona on 28/10/2017.
- */
-
 public class Utilities {
     public static void SetTextViewSubject(TextView view, Subject subject, Configuration configuration)
     {
@@ -23,5 +19,14 @@ public class Utilities {
         drawable.setColor(subject.getSubjectColor());
         drawable.setCornerRadius(10);
         view.setBackground(drawable);
+    }
+
+    public static GradientDrawable generateGradentVariable(Subject subject){
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.OVAL);
+        drawable.setSize(25, 25);
+        drawable.setColor(subject.getSubjectColor());
+
+        return drawable;
     }
 }
