@@ -50,7 +50,7 @@ public class AddLessonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_lesson);
 
         views = new ViewHolder();
-
+        
         long lesson_id = getIntent().getLongExtra("id", -1);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

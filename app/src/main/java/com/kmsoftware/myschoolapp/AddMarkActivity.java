@@ -64,7 +64,7 @@ public class AddMarkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mark);
-
+        
         views = new ViewHolder();
 
         long mark_id;
@@ -76,7 +76,7 @@ public class AddMarkActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         SubjectsCustomAdapter adapter = new SubjectsCustomAdapter(this);
-
+        
         views.subjects.setAdapter(adapter);
         views.subjects.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
