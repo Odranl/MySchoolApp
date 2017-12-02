@@ -1,38 +1,43 @@
 package com.kmsoftware.myschoolapp.adapters;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
+import com.kmsoftware.myschoolapp.enums.SortBy;
+
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class BaseCustomAdapter<T> extends BaseAdapter {
 
-    protected Context context;
-    protected ArrayList<T> data;
-    private int rowLayoutId;
+    private Context context;
+    private List<T> data;
+    private int layoutResId;
 
-    protected abstract Comparator<T> getComparator();
+    public Context getContext() {
+        return context;
+    }
 
-    BaseCustomAdapter(Context context, int rowLayoutId) {
+    public List<T> getData() {
+        return data;
+    }
+
+    BaseCustomAdapter(Context context, int layoutResId, List<T> data) {
         this.context = context;
-        this.rowLayoutId = rowLayoutId;
-
-        refreshData();
+        this.data = data;
+        this.layoutResId = layoutResId;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //noinspection ConstantConditions
-            convertView = inflater.inflate(rowLayoutId, parent, false);
+            convertView = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(layoutResId, parent, false);
         }
-
         return convertView;
     }
 
@@ -46,22 +51,22 @@ public abstract class BaseCustomAdapter<T> extends BaseAdapter {
         return data.size();
     }
 
-    public ArrayList<T> getData() {
-        return data;
-    }
-
     public T getItem(int position) {
         return data.get(position);
     }
 
-    public abstract ArrayList<T> loadData(ArrayList<T> data);
-
-    private void sortData() {
-        Collections.sort(data, getComparator());
+    public void sortData(Comparator<T> comparator) {
+        Collections.sort(data, comparator);
     }
 
-    public void refreshData() {
-        data = loadData(data);
-        sortData();
+    public void setData(List<T> data, Comparator<T> comparator) {
+        this.data = data;
+
+        sortData(comparator);
+
+        notifyDataSetChanged();
     }
+
+    public abstract Comparator<T> getComparator(SortBy sortBy);
+
 }

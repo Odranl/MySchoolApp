@@ -4,6 +4,8 @@ import android.graphics.Color;
 
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 public class Subject extends SugarRecord<Subject>{
 
     //region getter and setters
@@ -62,5 +64,9 @@ public class Subject extends SugarRecord<Subject>{
     @Override
     public String toString() {
         return subjectName;
+    }
+
+    public static List<Subject> listAllSubject() {
+        return SugarRecord.listAll(Subject.class);
     }
 }

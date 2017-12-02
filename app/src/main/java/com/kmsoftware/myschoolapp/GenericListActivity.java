@@ -23,6 +23,7 @@ import com.kmsoftware.myschoolapp.adapters.LessonsCustomAdapter;
 import com.kmsoftware.myschoolapp.adapters.MarksCustomAdapter;
 import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
 import com.kmsoftware.myschoolapp.adapters.TasksCustomAdapter;
+import com.kmsoftware.myschoolapp.enums.SortBy;
 import com.kmsoftware.myschoolapp.model.Lesson;
 import com.kmsoftware.myschoolapp.model.Mark;
 import com.kmsoftware.myschoolapp.model.Subject;
@@ -82,7 +83,7 @@ public class GenericListActivity extends AppCompatActivity {
 
             BaseCustomAdapter adapter;
             if (objectClass == Subject.class) {
-                adapter = new SubjectsCustomAdapter(this);
+                adapter = new SubjectsCustomAdapter(this, SortBy.SUBJECT_NAME);
                 setTitle("Subjects");
             } else if (objectClass == Task.class) {
                 adapter = new TasksCustomAdapter(this);
@@ -112,9 +113,7 @@ public class GenericListActivity extends AppCompatActivity {
                                                         if (which == Dialog.BUTTON_POSITIVE) {
                                                             objectClass.cast(parent.getItemAtPosition(position)).delete();
 
-                                                            ((BaseCustomAdapter)parent.getAdapter()).refreshData();
-
-                                                            ((ListView) view.getParent()).invalidateViews();
+                                                            ((BaseCustomAdapter)parent.getAdapter()).setData(Subject.listAllSubject(), ((BaseCustomAdapter)parent.getAdapter()).getComparator(SortBy.SUBJECT_NAME));
                                                         }
                                                     }
                                                 };
@@ -234,7 +233,11 @@ public class GenericListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshList();
+        try {
+            refreshList();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void refreshList() {
