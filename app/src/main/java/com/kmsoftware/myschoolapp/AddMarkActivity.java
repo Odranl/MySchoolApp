@@ -75,6 +75,9 @@ public class AddMarkActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SubjectsCustomAdapter adapter = new SubjectsCustomAdapter(this);
+
+        views.subjects.setAdapter(adapter);
         views.subjects.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -129,6 +132,8 @@ public class AddMarkActivity extends AppCompatActivity {
     }
 
     private void LoadData() {
+
+
         List<Subject> subjectList = ((SubjectsCustomAdapter)views.subjects.getAdapter()).getData();
 
         for (int i = 0; i < subjectList.size(); i++) {
@@ -142,5 +147,6 @@ public class AddMarkActivity extends AppCompatActivity {
         views.datePicker.setText(DateFormatter.getFormattedDate(DateFormatter.formatDateAsLong((mark.getDate()))));
         views.description.setText(mark.getDescription());
         views.datePickerDialog.getDatePicker().init(mark.getDate().get(Calendar.YEAR), mark.getDate().get(Calendar.MONTH), mark.getDate().get(Calendar.DAY_OF_MONTH), null);
+
     }
 }
