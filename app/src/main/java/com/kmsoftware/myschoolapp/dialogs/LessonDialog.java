@@ -16,23 +16,19 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.kmsoftware.myschoolapp.AddMarkActivity;
-import com.kmsoftware.myschoolapp.AddSubjectActivity;
 import com.kmsoftware.myschoolapp.AddTaskActivity;
 import com.kmsoftware.myschoolapp.CustomViews.CustomListView;
-import com.kmsoftware.myschoolapp.GenericListActivity;
 import com.kmsoftware.myschoolapp.R;
-import com.kmsoftware.myschoolapp.adapters.BaseCustomAdapter;
-import com.kmsoftware.myschoolapp.adapters.TasksCustomAdapter;
+import com.kmsoftware.myschoolapp.adapters.CustomAdaptersBuilder;
+import com.kmsoftware.myschoolapp.enums.SortBy;
 import com.kmsoftware.myschoolapp.model.Lesson;
-import com.kmsoftware.myschoolapp.model.Mark;
-import com.kmsoftware.myschoolapp.model.Subject;
 import com.kmsoftware.myschoolapp.model.Task;
+import com.kmsoftware.myschoolapp.utilities.AdapterDataManipulation;
 import com.orm.SugarRecord;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class LessonDialog extends DialogFragment {
 
@@ -45,7 +41,7 @@ public class LessonDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        Lesson lesson = SugarRecord.findById(Lesson.class, getArguments().getLong("lesson_id", -1));
+        final Lesson lesson = SugarRecord.findById(Lesson.class, getArguments().getLong(getString(R.string.lesson_id), -1));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -58,7 +54,7 @@ public class LessonDialog extends DialogFragment {
 
         timeFinish.add(Calendar.MINUTE, lesson.getMinutesLength());
 
-        textViewTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(lesson.getHour().getTime()) + " - " + DateFormat.getTimeInstance(DateFormat.SHORT).format(timeFinish.getTime()) + " " + getResources().getStringArray(R.array.days_of_week)[lesson.getDayOfWeek()]);
+        textViewTime.setText(getString(R.string.lesson_dialog,DateFormat.getTimeInstance(DateFormat.SHORT).format(lesson.getHour().getTime()), DateFormat.getTimeInstance(DateFormat.SHORT).format(timeFinish.getTime()), getResources().getStringArray(R.array.days_of_week)[lesson.getDayOfWeek()]));
 
         TextView textViewHeader = view.findViewById(R.id.dialog_lesson_header);
 
@@ -70,8 +66,12 @@ public class LessonDialog extends DialogFragment {
 
         CustomListView listView = view.findViewById(R.id.task_list_view_main);
 
-        TasksCustomAdapter adapter = new TasksCustomAdapter(view.getContext(), SugarRecord.find(Task.class, "subject = ?", String.valueOf(lesson.getSubject().getId())));
-        listView.setAdapter(adapter);
+        listView.setAdapter(CustomAdaptersBuilder.generateTaskCustomAdapter(view.getContext(), SortBy.DATE, new AdapterDataManipulation<Task>() {
+            @Override
+            public List<Task> loadData() {
+                return SugarRecord.find(Task.class, "subject = ?", String.valueOf(lesson.getSubject().getId()));
+            }
+        }));
 
         listView.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
@@ -91,7 +91,6 @@ public class LessonDialog extends DialogFragment {
                                                     if (which == Dialog.BUTTON_POSITIVE) {
                                                         ((Task)parent.getItemAtPosition(position)).delete();
 
-                                                        ((BaseCustomAdapter)parent.getAdapter()).refreshData();
 
                                                         ((ListView) view.getParent()).invalidateViews();
                                                     }
@@ -99,16 +98,16 @@ public class LessonDialog extends DialogFragment {
                                             };
 
                                             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(view.getContext());
-                                            builder.setMessage("Are you sure you want to delete this item?")
-                                                    .setPositiveButton("Yes", onClickListener)
-                                                    .setNegativeButton("No", onClickListener)
+                                            builder.setMessage(R.string.delete_item_dialog_text)
+                                                    .setPositiveButton(R.string.yes, onClickListener)
+                                                    .setNegativeButton(R.string.no, onClickListener)
                                                     .show();
                                         } else if (item.getItemId() == R.id.menu_edit) {
                                             Intent intent;
 
                                             intent = new Intent(view.getContext(), AddTaskActivity.class);
 
-                                            intent.putExtra("id", ((SugarRecord) parent.getAdapter().getItem((int) id)).getId());
+                                            intent.putExtra(getString(R.string.id), ((SugarRecord) parent.getAdapter().getItem((int) id)).getId());
 
                                             startActivity(intent);
                                         }

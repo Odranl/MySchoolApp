@@ -12,12 +12,15 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
-import com.kmsoftware.myschoolapp.CustomViews.CustomSpinner;
-import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
+import com.kmsoftware.myschoolapp.adapters.BaseCustomAdapter;
+import com.kmsoftware.myschoolapp.adapters.CustomAdaptersBuilder;
 import com.kmsoftware.myschoolapp.dialogs.DatePickerDialog;
+import com.kmsoftware.myschoolapp.enums.SortBy;
 import com.kmsoftware.myschoolapp.model.Subject;
 import com.kmsoftware.myschoolapp.model.Task;
+import com.kmsoftware.myschoolapp.utilities.AdapterDataManipulation;
 import com.kmsoftware.myschoolapp.utilities.DateFormatter;
+import com.orm.SugarRecord;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -31,7 +34,7 @@ public class AddTaskActivity extends AppCompatActivity {
     ViewHolder views = null;
 
     public class ViewHolder {
-        CustomSpinner subjectsSpinner;
+        Spinner subjectsSpinner;
         TextInputEditText taskTitleEditText;
         Button taskDate;
         TextInputEditText taskDescriptionEditText;
@@ -77,7 +80,12 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        views.subjectsSpinner.setAdapter(CustomAdaptersBuilder.generateSubjectCustomAdapter(this, SortBy.SUBJECT_NAME, new AdapterDataManipulation<Subject>() {
+            @Override
+            public List<Subject> loadData() {
+                return SugarRecord.listAll(Subject.class);
+            }
+        }));
         views.subjectsSpinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -132,7 +140,8 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        List<Subject> subjects = ((SubjectsCustomAdapter)views.subjectsSpinner.getAdapter()).getData();
+        //noinspection unchecked
+        List<Subject> subjects = ((BaseCustomAdapter<Subject>)views.subjectsSpinner.getAdapter()).getData();
         for (int i = 0; i < subjects.size(); i++) {
             if (task.getSubject().equals(subjects.get(i))) {
                 views.subjectsSpinner.setSelection(i);
@@ -140,7 +149,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         }
         views.taskTitleEditText.setText(task.getTitle());
-        views.taskDate.setText(DateFormatter.getFormattedDate(DateFormatter.formatDateAsLong((task.getDateDue()))));
+        views.taskDate.setText(DateFormatter.getFormattedDate(task.getDateDue().getTime()));
         views.taskDescriptionEditText.setText(task.getDescription());
         views.checkBox.setChecked(task.isCompleted());
         views.datePickerDialog.getDatePicker().init(task.getDateDue().get(Calendar.YEAR), task.getDateDue().get(Calendar.MONTH), task.getDateDue().get(Calendar.DAY_OF_MONTH), null);

@@ -9,13 +9,12 @@
     tools:showIn="@layout/activity_add_mark"
     android:fitsSystemWindows="true">
 
-    <com.kmsoftware.myschoolapp.CustomViews.CustomSpinner
+    <Spinner
         android:id="@+id/spinner_subject_add_mark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:padding="5dp"
-        app:dataType="subject"/>
+        android:padding="5dp"/>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +24,7 @@
             android:id="@+id/edit_text_mark_add_mark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mark"
+            android:hint="@string/mark"
             android:inputType="numberDecimal" />
     </android.support.design.widget.TextInputLayout>
 
@@ -35,14 +34,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_input_layout_mark"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:text="Date"
+        android:text="@string/date"
         android:enabled="true" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Save"
+        android:text="@string/save"
         android:id="@+id/button_add_mark_save"
         style="@style/Widget.AppCompat.Button.Colored" />
 
@@ -54,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/add_mark_edit_text_description"
-            android:hint="Description"/>
+            android:hint="@string/description"/>
     </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

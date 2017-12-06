@@ -1,11 +1,10 @@
 package com.kmsoftware.myschoolapp.utilities;
 
-import com.kmsoftware.myschoolapp.enums.SortBy;
+import java.util.List;
 
-/**
- * Created by leonardo on 04/12/17.
- */
-
-public interface AdapterDataManipolation {
-    void loadData(SortBy sortBy);
+// This interface contains the function used to load data into the adapters,
+// this way the view can be reset and the same code will be called to reload
+// the data.
+public interface AdapterDataManipulation<T> {
+    List<T> loadData();
 }

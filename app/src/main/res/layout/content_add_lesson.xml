@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subject"
+        android:text="@string/subject"
         android:id="@+id/subject_text_view"/>
 
     <Spinner
@@ -25,7 +25,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Day"
+        android:text="@string/day"
         android:id="@+id/day_text_view"
         android:layout_below="@id/spinnerSubject"/>
 
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/spinnerDay"
         android:id="@+id/button_time_pick"
-        android:text="Pick Time"/>
+        android:text="@string/pick_time"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -49,14 +49,14 @@
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Lesson's length *"
+            android:hint="@string/lesson_length"
             android:inputType="number"
             android:id="@+id/lesson_length_edit_text"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Minutes"
+            android:text="@string/minutes"
             android:textColor="@android:color/darker_gray"/>
     </android.support.design.widget.TextInputLayout>
     <Button
@@ -66,5 +66,5 @@
         android:id="@+id/save_lesson_button"
         android:layout_alignParentBottom="true"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:text="Save"/>
+        android:text="@string/save"/>
 </RelativeLayout>

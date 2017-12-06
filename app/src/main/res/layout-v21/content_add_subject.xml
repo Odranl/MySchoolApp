@@ -43,7 +43,6 @@
             android:id="@+id/subject_teacher_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="@string/teacher" />
     </android.support.design.widget.TextInputLayout>
@@ -63,6 +62,7 @@
         android:layout_below="@+id/subject_color_text_view"
         android:max="255"
         android:progress="0"
+        android:thumbTint="#F00"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
 
@@ -73,6 +73,7 @@
         android:layout_below="@+id/seekBarRed"
         android:max="255"
         android:progress="0"
+        android:thumbTint="#0F0"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
     <SeekBar
@@ -82,6 +83,7 @@
         android:layout_below="@+id/seekBarGreen"
         android:max="255"
         android:progress="0"
+        android:thumbTint="#00F"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
 

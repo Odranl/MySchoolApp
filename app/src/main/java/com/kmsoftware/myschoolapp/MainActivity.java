@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.kmsoftware.myschoolapp.dialogs.LessonDialog;
 import com.kmsoftware.myschoolapp.model.Lesson;
 import com.kmsoftware.myschoolapp.model.Mark;
@@ -42,7 +47,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        /*
+            String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            MobileAds.initialize(getApplicationContext(), "ca-app-pub-1419655633289822~5091764607");
+            AdView adView = findViewById(R.id.adView);
+            AdRequest request = new AdRequest.Builder().addTestDevice(android_id).build();
+            adView.loadAd(request);
+        */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

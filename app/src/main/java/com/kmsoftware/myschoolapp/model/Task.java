@@ -1,11 +1,8 @@
 package com.kmsoftware.myschoolapp.model;
 
-import com.kmsoftware.myschoolapp.utilities.DateFormatter;
 import com.orm.SugarRecord;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Task extends SugarRecord<Task> {
 
@@ -70,6 +67,6 @@ public class Task extends SugarRecord<Task> {
     }
 
     public boolean overdue(Calendar dateToCheck) {
-        return DateFormatter.formatDateAsLong(dateDue) < DateFormatter.formatDateAsLong(dateToCheck);
+        return !dateDue.after(dateToCheck);
     }
 }

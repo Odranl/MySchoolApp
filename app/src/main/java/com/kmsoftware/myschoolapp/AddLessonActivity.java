@@ -12,12 +12,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
+import com.kmsoftware.myschoolapp.adapters.CustomAdaptersBuilder;
+import com.kmsoftware.myschoolapp.enums.SortBy;
 import com.kmsoftware.myschoolapp.model.Subject;
 import com.kmsoftware.myschoolapp.model.Lesson;
+import com.kmsoftware.myschoolapp.utilities.AdapterDataManipulation;
+import com.orm.SugarRecord;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddLessonActivity extends AppCompatActivity {
 
@@ -56,9 +60,12 @@ public class AddLessonActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SubjectsCustomAdapter subjectArrayAdapter = new SubjectsCustomAdapter(this);
-
-        views.subjects.setAdapter(subjectArrayAdapter);
+        views.subjects.setAdapter(CustomAdaptersBuilder.generateSubjectCustomAdapter(this, SortBy.SUBJECT_NAME, new AdapterDataManipulation<Subject>() {
+            @Override
+            public List<Subject> loadData() {
+                return SugarRecord.listAll(Subject.class);
+            }
+        }));
         views.subjects.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override

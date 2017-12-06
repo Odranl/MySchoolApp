@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">MySchoolApp</string>
+
+    <string name="navigation_drawer_open">Apri drawer di navigazione</string>
+    <string name="navigation_drawer_close">Chiudi drawer di navigazione</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_subject">Nuova materia</string>
+    <string name="title_activity_add_lesson">AddLessonActivity</string>
+
+    <!-- Names of days of week -->
+    <array name="days_of_week">
+        <item>Lunedì</item>
+        <item>Martedì</item>
+        <item>Mercoledì</item>
+        <item>Giovedì</item>
+        <item>Venerdì</item>
+        <item>Sabato</item>
+        <item>Domenica</item>
+    </array>
+
+    <array name="ordinal_numbers">
+        <item>primo</item>
+        <item>secondo</item>
+        <item>terzo</item>
+        <item>quarto</item>
+        <item>quinto</item>
+        <item>sesto</item>
+    </array>
+
+    <string name="mon">Lun</string>
+    <string name="tue">Mar</string>
+    <string name="wed">Mer</string>
+    <string name="thu">Gio</string>
+    <string name="fri">Ven</string>
+    <string name="sat">Sab</string>
+    <string name="sun">Dom</string>
+
+    <string name="lesson_text">%1$s %2$d° lesson</string>
+    <string name="title_activity_add_mark">AddMarkActivity</string>
+    <string name="title_activity_add_task">AddTaskActivity</string>
+    <string name="title_activity_generic_list">GenericListActivity</string>
+    <string name="completed_tasks_header">Completed tasks</string>
+    <string name="subject_name_edit_text_hint">Nome</string>
+    <string name="mark">Voto</string>
+    <string name="date">Data</string>
+    <string name="save">Salva</string>
+    <string name="description">Descrizione</string>
+    <string name="school_management">Gestione scolastica</string>
+    <string name="help_planning">Aiuta a pianificare</string>
+    <string name="tasks">Compiti</string>
+    <string name="lesson">Lezione</string>
+    <string name="teacher">Insegnante</string>
+    <string name="title">Titolo</string>
+    <string name="completed">Completato</string>
+    <string name="short_name">Nome abbreviato</string>
+    <string name="color">Colore</string>
+    <string name="color_preview">Anteprima colore</string>
+    <string name="subject">Materia</string>
+    <string name="day">Giorno</string>
+    <string name="pick_time">Seleziona ora d\'inizio</string>
+    <string name="lesson_length">Durata lezione *</string>
+    <string name="minutes">Minuti</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+    <string name="delete_item_dialog_text">Sei sicuro di voler eliminare questo elemento?</string>
+    <string name="subjects">Materie</string>
+    <string name="lessons">Lezioni</string>
+    <string name="marks">Voti</string>
+    <string name="delete">Elimina</string>
+    <string name="edit">Modifica</string>
+
+</resources>

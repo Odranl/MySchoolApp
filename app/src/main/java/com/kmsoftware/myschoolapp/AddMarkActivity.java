@@ -10,12 +10,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 
-import com.kmsoftware.myschoolapp.CustomViews.CustomSpinner;
-import com.kmsoftware.myschoolapp.adapters.SubjectsCustomAdapter;
+import com.kmsoftware.myschoolapp.adapters.BaseCustomAdapter;
+import com.kmsoftware.myschoolapp.adapters.CustomAdaptersBuilder;
+import com.kmsoftware.myschoolapp.enums.SortBy;
 import com.kmsoftware.myschoolapp.model.Mark;
 import com.kmsoftware.myschoolapp.model.Subject;
+import com.kmsoftware.myschoolapp.utilities.AdapterDataManipulation;
 import com.kmsoftware.myschoolapp.utilities.DateFormatter;
+import com.orm.SugarRecord;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -28,7 +32,7 @@ public class AddMarkActivity extends AppCompatActivity {
     ViewHolder views = null;
 
     public class ViewHolder {
-        CustomSpinner subjects;
+        Spinner subjects;
         TextInputEditText markEditText;
         Button datePicker;
         TextInputEditText description;
@@ -75,9 +79,12 @@ public class AddMarkActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SubjectsCustomAdapter adapter = new SubjectsCustomAdapter(this);
-
-        views.subjects.setAdapter(adapter);
+        views.subjects.setAdapter(CustomAdaptersBuilder.generateSubjectCustomAdapter(this, SortBy.SUBJECT_NAME, new AdapterDataManipulation<Subject>() {
+            @Override
+            public List<Subject> loadData() {
+                return SugarRecord.listAll(Subject.class);
+            }
+        }));
         views.subjects.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -134,7 +141,7 @@ public class AddMarkActivity extends AppCompatActivity {
     private void LoadData() {
 
 
-        List<Subject> subjectList = ((SubjectsCustomAdapter)views.subjects.getAdapter()).getData();
+        List<Subject> subjectList = ((BaseCustomAdapter<Subject>)views.subjects.getAdapter()).getData();
 
         for (int i = 0; i < subjectList.size(); i++) {
             if (mark.getSubject().equals(subjectList.get(i))) {
@@ -144,7 +151,7 @@ public class AddMarkActivity extends AppCompatActivity {
         }
 
         views.markEditText.setText(String.valueOf(mark.getMark()));
-        views.datePicker.setText(DateFormatter.getFormattedDate(DateFormatter.formatDateAsLong((mark.getDate()))));
+        views.datePicker.setText(DateFormatter.getFormattedDate(mark.getDate().getTime()));
         views.description.setText(mark.getDescription());
         views.datePickerDialog.getDatePicker().init(mark.getDate().get(Calendar.YEAR), mark.getDate().get(Calendar.MONTH), mark.getDate().get(Calendar.DAY_OF_MONTH), null);
 

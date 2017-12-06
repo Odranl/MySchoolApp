@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.kmsoftware.myschoolapp.enums.SortBy;
+import com.kmsoftware.myschoolapp.model.Subject;
+import com.kmsoftware.myschoolapp.utilities.AdapterDataManipulation;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,7 +20,7 @@ public abstract class BaseCustomAdapter<T> extends BaseAdapter {
     private Context context;
     private List<T> data;
     private int layoutResId;
-
+    private AdapterDataManipulation<T> dataManipulation;
     public Context getContext() {
         return context;
     }
@@ -27,18 +29,12 @@ public abstract class BaseCustomAdapter<T> extends BaseAdapter {
         return data;
     }
 
-    BaseCustomAdapter(Context context, int layoutResId, List<T> data) {
+    BaseCustomAdapter(Context context, int layoutResId, SortBy sortBy, AdapterDataManipulation<T> manipulation) {
         this.context = context;
-        this.data = data;
         this.layoutResId = layoutResId;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(layoutResId, parent, false);
-        }
-        return convertView;
+        this.dataManipulation = manipulation;
+        setData(sortBy);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -55,18 +51,16 @@ public abstract class BaseCustomAdapter<T> extends BaseAdapter {
         return data.get(position);
     }
 
-    public void sortData(Comparator<T> comparator) {
-        Collections.sort(data, comparator);
-    }
-
-    public void setData(List<T> data, Comparator<T> comparator) {
-        this.data = data;
-
-        sortData(comparator);
-
+    public void setData(SortBy sortBy) {
+        this.data = dataManipulation.loadData();
+        Collections.sort(data, getComparator(sortBy));
         notifyDataSetChanged();
     }
 
     public abstract Comparator<T> getComparator(SortBy sortBy);
+
+    int getResourceId() {
+        return layoutResId;
+    }
 
 }

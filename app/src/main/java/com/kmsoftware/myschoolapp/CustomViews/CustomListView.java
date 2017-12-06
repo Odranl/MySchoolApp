@@ -20,7 +20,6 @@ public class CustomListView extends ListView {
     }
 
     public void refreshData() {
-        getBaseCustomAdapter().refreshData();
         invalidateViews();
     }
 }
